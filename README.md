@@ -22,6 +22,3 @@ com.bird.util   自定义的工具
 * email: <kingyuluk@hotmail.com>
 
 
-# 更新内容
-应用了双缓冲解决屏幕闪烁问题
-
