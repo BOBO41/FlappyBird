@@ -70,7 +70,7 @@ public class Pipe {
 		this.height = height;
 		this.type = type;
 		this.visible = visible;
-		setRectangle(x, y, height);
+		setRectangle(this.x, this.y, this.height);
 	}
 
 	/**
@@ -108,7 +108,8 @@ public class Pipe {
 			break;
 		}
 		
-		//绘制碰撞矩形
+		
+//		//绘制碰撞矩形
 //		g.setColor(Color.black);
 //		g.drawRect((int) pipeRect.getX(), (int) pipeRect.getY(), (int) pipeRect.getWidth(), (int) pipeRect.getHeight());
 		
@@ -127,7 +128,7 @@ public class Pipe {
 			g.drawImage(imgs[0], x, y + i * PIPE_HEIGHT, null);
 		}
 		// 绘制管道的顶部
-		g.drawImage(imgs[1], x - ((PIPE_HEAD_WIDTH - width) >> 1), height - PIPE_HEAD_HEIGHT, null); // 管道头部与管道主体的宽度不同，x坐标需要处理
+		g.drawImage(imgs[1], x - ((PIPE_HEAD_WIDTH - width) >> 1), height - Constant.TOP_PIPE_LENGTHENING - PIPE_HEAD_HEIGHT, null); // 管道头部与管道主体的宽度不同，x坐标需要处理
 	}
 
 	// 绘制从下往上的普通管道

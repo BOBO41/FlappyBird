@@ -40,7 +40,7 @@ public class GameElementLayer {
 				i--;
 			}
 		}
-
+		
 		// 碰撞检测
 		isCollideBird(bird);
 		pipeBornLogic(bird);
@@ -52,8 +52,8 @@ public class GameElementLayer {
 	 */
 	public static final int VERTICAL_INTERVAL = Constant.FRAME_HEIGHT / 5;
 	public static final int HORIZONTAL_INTERVAL = Constant.FRAME_HEIGHT >> 2;
-	public static final int MIN_HEIGHT = Constant.FRAME_HEIGHT >> 3;
-	public static final int MAX_HEIGHT = (Constant.FRAME_HEIGHT >> 3) * 5;
+	public static final int MIN_HEIGHT = (Constant.FRAME_HEIGHT) >> 3 ;
+	public static final int MAX_HEIGHT = ((Constant.FRAME_HEIGHT)>> 3) * 5;
 
 	private void pipeBornLogic(Bird bird) {
 		if (bird.isDead()) {
@@ -65,7 +65,7 @@ public class GameElementLayer {
 			int topHeight = GameUtil.getRandomNumber(MIN_HEIGHT, MAX_HEIGHT + 1); // 随机生成管道高度
 
 			Pipe top = PipePool.get();
-			top.setAttribute(Constant.FRAME_WIDTH, 0, topHeight, Pipe.TYPE_TOP_NORMAL, true);
+			top.setAttribute(Constant.FRAME_WIDTH, -Constant.TOP_PIPE_LENGTHENING, topHeight + Constant.TOP_PIPE_LENGTHENING, Pipe.TYPE_TOP_NORMAL, true);
 
 			Pipe bottom = PipePool.get();
 			bottom.setAttribute(Constant.FRAME_WIDTH, topHeight + VERTICAL_INTERVAL,
@@ -81,7 +81,7 @@ public class GameElementLayer {
 				int x = lastPipe.getX() + HORIZONTAL_INTERVAL;
 
 				Pipe top = PipePool.get();
-				top.setAttribute(x, 0, topHeight, Pipe.TYPE_TOP_NORMAL, true);
+				top.setAttribute(x, -Constant.TOP_PIPE_LENGTHENING, topHeight + Constant.TOP_PIPE_LENGTHENING, Pipe.TYPE_TOP_NORMAL, true);
 
 				Pipe bottom = PipePool.get();
 				bottom.setAttribute(x, topHeight + VERTICAL_INTERVAL,

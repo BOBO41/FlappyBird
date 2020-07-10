@@ -50,10 +50,13 @@ public class Constant {
 	public static final int GAME_INTERVAL = 1000 / 60;
 
 	// 标题栏高度
-	public static final int TOP_BAR_HEIGHT = 38;
+	public static final int TOP_BAR_HEIGHT = 20;
 
 	// 地面高度
 	public static final int GROUND_HEIGHT = 35;
+	
+	//上方管道加长
+	public static final int TOP_PIPE_LENGTHENING = 100;
 
 	public static final int CLOUD_BORN_PERCENT = 6; // 云朵生成的概率，单位为百分比
 	public static final int CLOUD_IMAGE_COUNT = 2; // 云朵图片的个数

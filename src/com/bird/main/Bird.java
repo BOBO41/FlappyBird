@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import com.bird.util.Constant;
 import com.bird.util.GameUtil;
+import com.bird.util.MusicUtil;
 
 /**
  * 小鸟类，小鸟的绘制与飞行逻辑都在此类
@@ -74,6 +75,8 @@ public class Bird {
 		return birdRect;
 	}
 
+	private int a;
+
 	// 绘制小鸟
 	public void draw(Graphics g) {
 		Fly();
@@ -92,10 +95,11 @@ public class Bird {
 		} else {
 			drawTime(g);
 		}
+		
+		timing.TimeToScore();
 		// 绘制矩形
 //		g.setColor(Color.black);
 //		g.drawRect((int) birdRect.getX(), (int) birdRect.getY(), (int) birdRect.getWidth(), (int) birdRect.getHeight());
-
 	}
 
 	public static final int SPEED_UP = 32; // 小鸟向上的速度
@@ -131,8 +135,7 @@ public class Bird {
 
 		case STATE_UP:
 			// 控制上边界
-			if (y < ((birdImgs[state][0].getHeight(null) >> 1) + Constant.TOP_BAR_HEIGHT))
-				y = (birdImgs[state][0].getHeight(null) >> 1) + Constant.TOP_BAR_HEIGHT;
+
 			break;
 
 		case STATE_DOWN:
@@ -142,11 +145,6 @@ public class Bird {
 			y = (int) (y - h);
 			birdRect.y = (int) (birdRect.y - h);
 			// 控制边界，死亡条件
-			if (y > Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1)) {
-				y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
-				birdRect.y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
-				BirdFall();
-			}
 			break;
 
 		case STATE_FALL:
@@ -157,7 +155,7 @@ public class Bird {
 			birdRect.y = (int) (birdRect.y - h);
 
 			// 控制坠落的边界
-			if (y > Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1)) {
+			if (birdRect.y > Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1)) {
 				y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
 				birdRect.y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
 
@@ -170,9 +168,13 @@ public class Bird {
 			break;
 		}
 
-		// 撞到上边缘或下边缘死亡
-		if (y < ((image.getHeight() >> 1) + Constant.TOP_BAR_HEIGHT)
-				|| (y > Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (image.getHeight() >> 1))) {
+		// 控制上方边界
+		if (birdRect.y < -1 * Constant.TOP_PIPE_LENGTHENING / 2) {
+			birdRect.y = -1 * Constant.TOP_PIPE_LENGTHENING / 2;
+			y = -1 * Constant.TOP_PIPE_LENGTHENING / 2;
+		}
+
+		if (birdRect.y > Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (image.getHeight() >> 1)) {
 			BirdFall();
 		}
 	}
@@ -184,6 +186,7 @@ public class Bird {
 				return;
 			state = STATE_UP;
 			speed = SPEED_UP;
+			MusicUtil.playFly(); // 播放音效
 			wingState = 0; // 重置翅膀状态
 			keyPressed();
 		}
@@ -197,6 +200,7 @@ public class Bird {
 
 	public void BirdFall() {
 		state = STATE_FALL;
+		MusicUtil.playCrash(); // 播放音效
 		// 结束计时
 		timing.endTiming();
 	}
@@ -215,27 +219,18 @@ public class Bird {
 		return state == STATE_FALL || state == STATE_DEAD;
 	}
 
-//	public void reset() {
-//		state = STATE_NORMAL;
-//		speed = 0;
-//		x = Constant.FRAME_WIDTH >> 1;
-//		y = Constant.FRAME_HEIGHT >> 1;
-//
-//		int ImgHeight = birdImgs[state][0].getHeight();
-//		birdRect.y = this.y - ImgHeight / 2 + RECT_DESCALE * 2;
-//	}
-
 	// 开始计时的方法
 	public void startTiming() {
 		if (timing.isReadyTiming())
 			timing.startTiming();
 	}
 
-	// 绘制飞行时间
+	// 绘制实时分数
 	private void drawTime(Graphics g) {
 		g.setColor(Color.white);
 		g.setFont(Constant.TIME_FONT);
-		String str = Long.toString(timing.getTimeInSeconds());
+//		String str = Long.toString(timing.getTimeInSeconds());  时间分数
+		String str = Long.toString(timing.TimeToScore());
 		int x = Constant.FRAME_WIDTH - GameUtil.getStringWidth(Constant.TIME_FONT, str) >> 1;
 		g.drawString(str, x, Constant.FRAME_HEIGHT / 10);
 	}
@@ -262,14 +257,14 @@ public class Bird {
 
 		x = (Constant.FRAME_WIDTH - scoreImg.getWidth() / 2 >> 1) + SCORE_LOCATE;// 位置补偿
 		y += scoreImg.getHeight() >> 1;
-		String str = Long.toString(timing.getTimeInSeconds());
+		String str = Long.toString(timing.TimeToScore());
 		x -= GameUtil.getStringWidth(Constant.SCORE_FONT, str) >> 1;
 		y += GameUtil.getStringHeight(Constant.SCORE_FONT, str);
 		g.drawString(str, x, y);
 
 		// 绘制最高分数
-		if (timing.getBestTime() > 0) {
-			str = Long.toString(timing.getBestTime());
+		if (timing.getBestScore() > 0) {
+			str = Long.toString(timing.getBestScore());
 			x = (Constant.FRAME_WIDTH + scoreImg.getWidth() / 2 >> 1) - SCORE_LOCATE;// 位置补偿
 			x -= GameUtil.getStringWidth(Constant.SCORE_FONT, str) >> 1;
 			g.drawString(str, x, y);
@@ -285,9 +280,21 @@ public class Bird {
 		}
 	}
 
-	public void continueGame() {
+	private int score = 0;
 
-	}
+//	private int TimeToScore() {
+//		long time = timing.getTime();
+//		int temp = score;
+//		if (time >= 6600 && time < 9600) {
+//			score = 1;
+//		} else if (time >= 9600) {
+//			score = (int) (time - 6600) / 2850 + 1;
+//			}
+//		if(score - temp > 0) {
+//			MusicUtil.playScore();
+//		}
+//		return score;
+//	}
 
 	public void reset() {
 		state = STATE_NORMAL; // 小鸟状态
@@ -298,6 +305,7 @@ public class Bird {
 		birdRect.y = y - ImgHeight / 2 + RECT_DESCALE * 2; // 小鸟碰撞矩形坐标
 
 		timing.reset(); // 计时器
+		score = 0;
 		flash = 0;
 	}
 }

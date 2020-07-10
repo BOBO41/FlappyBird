@@ -15,6 +15,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
+import com.bird.util.MusicUtil;
+
 /**
  * 主窗口类，游戏窗口和绘制的相关内容
  * 
@@ -29,7 +31,7 @@ public class GameFrame extends Frame implements Runnable {
 	public static final int STATE_READY = 0; // 游戏未开始
 	public static final int STATE_START = 1; // 游戏开始
 	public static final int STATE_OVER = 2; // 游戏结束
-	
+
 	private GameBackground background; // 游戏背景对象
 	private GameForeground foreground; // 游戏前景对象
 	private Bird bird; // 小鸟对象
@@ -87,13 +89,13 @@ public class GameFrame extends Frame implements Runnable {
 				break;
 			}
 		}
-		
+
 		// 重新开始游戏
 		private void resetGame() {
 			setGameState(STATE_READY);
 			gameElement.reset();
 			bird.reset();
-			
+
 		}
 
 		// 按键松开
@@ -114,6 +116,7 @@ public class GameFrame extends Frame implements Runnable {
 		gameElement = new GameElementLayer();
 		foreground = new GameForeground();
 		ready = new GameReady();
+		MusicUtil.load(); // 装载音乐资源
 
 		bird = new Bird();
 
