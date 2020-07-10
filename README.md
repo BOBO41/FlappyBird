@@ -1,8 +1,7 @@
 # flappy-bird
 flappy bird for desktop platforms.
 
-<<<<<<< HEAD
-基于java编写，没有用其他游戏引擎
+基于java编写，没有用游戏引擎
 
 开发难度不高，适合JAVA刚入门的同学，注释写得很详细，欢迎交流
 
@@ -16,7 +15,6 @@ com.bird.main   游戏的内容
 
 com.bird.util   自定义的工具
 
-<<<<<<< HEAD
 # 更新内容
 应用双缓冲解决屏幕闪烁问题
 
