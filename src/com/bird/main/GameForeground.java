@@ -82,7 +82,7 @@ public class GameForeground {
 					i--;
 				}
 			}
-
+		
 			/*功能已实现，但不太符合现实，暂时注释掉
 			// 云朵随机改变方向，
 			try {

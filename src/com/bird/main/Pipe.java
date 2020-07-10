@@ -1,6 +1,5 @@
 package com.bird.main;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -110,8 +109,8 @@ public class Pipe {
 		}
 		
 		//绘制碰撞矩形
-		g.setColor(Color.black);
-		g.drawRect((int) pipeRect.getX(), (int) pipeRect.getY(), (int) pipeRect.getWidth(), (int) pipeRect.getHeight());
+//		g.setColor(Color.black);
+//		g.drawRect((int) pipeRect.getX(), (int) pipeRect.getY(), (int) pipeRect.getWidth(), (int) pipeRect.getHeight());
 		
 		if(bird.isDead()) {
 			return;
