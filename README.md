@@ -7,16 +7,16 @@ Flappy Bird for desktop platforms.
 
 欢迎交流
 
-####游戏启动界面
+###游戏启动界面
 ![image][start]
 
-####游戏过程界面
+###游戏过程界面
 ![image][process]
 
-####游戏结束界面
+###游戏结束界面
 ![image][over]
 
-####可移动的水管
+###可移动的水管
 ![image][moving]
 
 
