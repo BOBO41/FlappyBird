@@ -8,7 +8,7 @@ Flappy Bird for desktop platforms.
 欢迎交流
 
 #### 游戏启动界面
-![image](https://github.com/kingyuluk/flappy-bird/blob/master/examples/ready.png)
+![image](https://github.com/kingyuluk/flappy-bird/blob/master/examples/start.png)
 
 #### 游戏过程
 ![image](https://github.com/kingyuluk/flappy-bird/blob/master/examples/play.gif)
