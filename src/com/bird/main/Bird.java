@@ -132,6 +132,13 @@ public class Bird {
 			h = speed * T - g * T * T / 2;
 			y = (int) (y - h);
 			birdRect.y = (int) (birdRect.y - h);
+			// 控制坠落的边界，若y坐标 > 窗口的高度 - 地面的高度 - 小鸟图片的高度则死亡
+			if (birdRect.y >= Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1)) {
+				y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
+				birdRect.y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
+				birdFall();
+			}
+
 			break;
 
 		case STATE_FALL:
@@ -142,12 +149,12 @@ public class Bird {
 			birdRect.y = (int) (birdRect.y - h);
 
 			// 控制坠落的边界，若y坐标 > 窗口的高度 - 地面的高度 - 小鸟图片的高度则死亡
-			if (birdRect.y > Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1)) {
-				
+			if (birdRect.y >= Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1)) {
+
 				y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
 				birdRect.y = Constant.FRAME_HEIGHT - Constant.GROUND_HEIGHT - (birdImgs[state][0].getHeight() >> 1);
 
-				GameFrame.setGameState(GameFrame.STATE_OVER);  //改变游戏状态
+				GameFrame.setGameState(GameFrame.STATE_OVER); // 改变游戏状态
 				birdDead();
 			}
 			break;
@@ -171,23 +178,24 @@ public class Bird {
 	// 小鸟振翅
 	public void birdUp() {
 		if (keyIsReleased()) { // 如果按键已释放
-			if (state == STATE_DEAD || state == STATE_UP)
+			if (state == STATE_DEAD || state == STATE_UP || state == STATE_FALL)
 				return; // 小鸟死亡或坠落时返回
+			MusicUtil.playFly(); // 播放音效
 			state = STATE_UP;
-			speed = SPEED_UP;  // 每次振翅将速度改为上升速度
+			speed = SPEED_UP; // 每次振翅将速度改为上升速度
 			wingState = 0; // 重置翅膀状态
 			keyPressed();
 		}
 	}
 
-	//小鸟下降
+	// 小鸟下降
 	public void birdDown() {
 		if (state == STATE_DEAD || state == STATE_FALL)
 			return; // 小鸟死亡或坠落时返回
 		state = STATE_DOWN;
 	}
 
-	//小鸟坠落（已死）
+	// 小鸟坠落（已死）
 	public void birdFall() {
 		state = STATE_FALL;
 		MusicUtil.playCrash(); // 播放音效
@@ -195,7 +203,7 @@ public class Bird {
 		timing.endTiming();
 	}
 
-	//小鸟死亡
+	// 小鸟死亡
 	public void birdDead() {
 		state = STATE_DEAD;
 		// 加载游戏结束的资源
@@ -228,7 +236,7 @@ public class Bird {
 	private static final int SCORE_LOCATE = 5; // 位置补偿参数
 
 	private int flash = 0; // 图片闪烁参数
-	
+
 	// 绘制游戏结束的显示
 	private void drawGameover(Graphics g) {
 		// 绘制结束标志

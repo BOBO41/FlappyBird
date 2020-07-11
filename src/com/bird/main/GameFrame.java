@@ -15,7 +15,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
-import com.bird.util.MusicUtil;
 
 /**
  * 主窗口类，游戏窗口和绘制的相关内容
@@ -70,7 +69,6 @@ public class GameFrame extends Frame implements Runnable {
 			case STATE_READY:
 				if (keycode == KeyEvent.VK_SPACE) {
 					// 游戏启动界面时按下空格，小鸟振翅一次并开始受重力影响
-					MusicUtil.playFly(); // 播放音效
 					bird.birdUp();
 					bird.birdDown();
 					setGameState(STATE_START); // 游戏状态改变
@@ -80,7 +78,6 @@ public class GameFrame extends Frame implements Runnable {
 			case STATE_START:
 				if (keycode == KeyEvent.VK_SPACE) {
 					//游戏过程中按下空格则振翅一次，并持续受重力影响
-					MusicUtil.playFly(); // 播放音效
 					bird.birdUp();
 					bird.birdDown();
 				}
