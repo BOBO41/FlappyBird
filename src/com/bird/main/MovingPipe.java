@@ -1,11 +1,12 @@
 package com.bird.main;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import com.bird.util.Constant;
 
 /**
- * 移动的水管，继承Pipe类
+ * 移动水管类，继承Pipe类
  * 
  * @author Kingyu
  *
@@ -60,7 +61,6 @@ public class MovingPipe extends Pipe {
 		case TYPE_BOTTOM_HARD:
 			drawBottomHard(g);
 			break;
-		
 
 		}
 		// 鸟死后水管停止移动
@@ -68,10 +68,10 @@ public class MovingPipe extends Pipe {
 			return;
 		}
 		pipeLogic();
-		
-		//绘制碰撞矩形
-//		g.setColor(Color.black);
-//		g.drawRect((int) pipeRect.getX(), (int) pipeRect.getY(), (int) pipeRect.getWidth(), (int) pipeRect.getHeight());
+
+		// 绘制碰撞矩形
+		g.setColor(Color.black);
+		g.drawRect((int) pipeRect.getX(), (int) pipeRect.getY(), (int) pipeRect.getWidth(), (int) pipeRect.getHeight());
 	}
 
 	// 绘制移动的悬浮水管
@@ -99,7 +99,7 @@ public class MovingPipe extends Pipe {
 		}
 		// 绘制水管的顶部
 		g.drawImage(imgs[1], x - ((PIPE_HEAD_WIDTH - width) >> 1),
-				height - Constant.TOP_PIPE_LENGTHENING - PIPE_HEAD_HEIGHT  + dealtY, null);
+				height - Constant.TOP_PIPE_LENGTHENING - PIPE_HEAD_HEIGHT + dealtY, null);
 	}
 
 	// 绘制从下往上的普通水管
@@ -108,11 +108,10 @@ public class MovingPipe extends Pipe {
 		int count = (height - PIPE_HEAD_HEIGHT) / PIPE_HEIGHT + 1;
 		// 绘制水管的主体
 		for (int i = 0; i < count; i++) {
-			g.drawImage(imgs[0], x, Constant.FRAME_HEIGHT - PIPE_HEIGHT - i * PIPE_HEIGHT  + dealtY ,
-					null);
+			g.drawImage(imgs[0], x, Constant.FRAME_HEIGHT - PIPE_HEIGHT - i * PIPE_HEIGHT + dealtY, null);
 		}
 		// 绘制水管的顶部
-		g.drawImage(imgs[2], x - ((PIPE_HEAD_WIDTH - width) >> 1), Constant.FRAME_HEIGHT - height  + dealtY , null);
+		g.drawImage(imgs[2], x - ((PIPE_HEAD_WIDTH - width) >> 1), Constant.FRAME_HEIGHT - height + dealtY, null);
 	}
 
 	/**
@@ -125,20 +124,19 @@ public class MovingPipe extends Pipe {
 			visible = false;
 		}
 
-			if (dir == DIR_DOWN) {
-				dealtY++;
-				if (dealtY > MAX_DEALY) {
-					dir = DIR_UP;
-				}
-			} else {
-				dealtY--;
-				if (dealtY <= 0) {
-					dir = DIR_DOWN;
-				}
+		//水管上下移动
+		if (dir == DIR_DOWN) {
+			dealtY++;
+			if (dealtY > MAX_DEALY) {
+				dir = DIR_UP;
 			}
-			pipeRect.y = this.y + dealtY;
+		} else {
+			dealtY--;
+			if (dealtY <= 0) {
+				dir = DIR_DOWN;
+			}
+		}
+		pipeRect.y = this.y + dealtY;
 
-
-		
 	}
 }

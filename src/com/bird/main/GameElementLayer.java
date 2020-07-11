@@ -90,7 +90,7 @@ public class GameElementLayer {
 							else
 								addHoverPipe(lastPipe);
 						} else {
-							if(GameUtil.isInProbability(1, 2))  // 生成移动水管和移动悬浮水管的概率
+							if(GameUtil.isInProbability(1, 3))  // 生成移动水管和移动悬浮水管的概率
 								addMovingHoverPipe(lastPipe);
 							else
 							    addMovingNormalPipe(lastPipe);

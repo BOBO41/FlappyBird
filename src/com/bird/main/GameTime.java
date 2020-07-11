@@ -119,8 +119,8 @@ public class GameTime {
 		}
 	}
 
-	private static final int FIRST_SCORE_TIME = 6700; // 从游戏开始到通过第一根水管的所需时间
-	private static final int PER_SCORE_TIME = 2850; // 通过后续每一根水管的间隔的所需时间
+	private static final int FIRST_SCORE_TIME = 6600; // 从游戏开始到通过第一根水管的所需时间
+	private static final int PER_SCORE_TIME = 2880; // 通过后续每一根水管的间隔的所需时间
 
 	//将游戏时间转换为通过水管的数量
 	public long TimeToScore() {
