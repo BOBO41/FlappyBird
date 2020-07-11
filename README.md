@@ -8,16 +8,16 @@ Flappy Bird for desktop platforms.
 欢迎交流
 
 #### 游戏启动界面
-![image][start]
+![image](https://github.com/kingyuluk/flappy-bird/blob/master/png/ready.png)
 
 #### 游戏过程界面
-![image][process]
+![image][https://github.com/kingyuluk/flappy-bird/blob/master/png/process.png]
 
 #### 游戏结束界面
-![image][over]
+![image][https://github.com/kingyuluk/flappy-bird/blob/master/png/over.png]
 
 #### 可移动的水管
-![image][moving]
+![image][https://github.com/kingyuluk/flappy-bird/blob/master/png/1.gif]
 
 
 # Package Contents
