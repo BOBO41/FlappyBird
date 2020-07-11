@@ -3,9 +3,9 @@ Flappy Bird for desktop platforms.
 
 基于java语言编写的Flappy Bird，只用了JDK基本库
 
-开发难度不高，适合JAVA刚入门的同学，注释写得很详细，欢迎交流
-
 开发平台为macOS 10.15.5，开发工具为Eclipse IDE (4.16.0), Java SE 8[1.8.0_251]
+
+欢迎交流
 
 
 # Package Contents
