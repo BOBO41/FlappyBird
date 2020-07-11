@@ -17,10 +17,7 @@ import com.bird.util.MusicUtil;
  */
 public class GameTime {
 	private static final GameTime GAME_TIME = new GameTime();
-
-	public static final int HOVER_BARRIER_SCORE = 1; // 出现悬浮管道的时间
-	public static final int MOVING_BARRIER_SCORE = 2; // 出现移动管道的时间
-
+	
 	private int timeState; // 计时器的状态
 	public static final int STATE_READY = 0; // 计时就绪
 	public static final int STATE_START = 1; // 计时开始
