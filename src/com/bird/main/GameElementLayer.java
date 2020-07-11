@@ -17,12 +17,12 @@ import com.bird.util.GameUtil;
 public class GameElementLayer {
 	private List<Pipe> pipes; // 水管的容器
 
-	//构造器
+	// 构造器
 	public GameElementLayer() {
 		pipes = new ArrayList<>();
 	}
 
-	//绘制方法
+	// 绘制方法
 	public void draw(Graphics g, Bird bird) {
 		// 遍历水管容器，如果可见则绘制，不可见则归还
 		for (int i = 0; i < pipes.size(); i++) {
@@ -46,7 +46,7 @@ public class GameElementLayer {
 	 */
 	public static final int VERTICAL_INTERVAL = Constant.FRAME_HEIGHT / 5;
 	public static final int HORIZONTAL_INTERVAL = Constant.FRAME_HEIGHT >> 2;
-	public static final int MIN_HEIGHT = (Constant.FRAME_HEIGHT) >> 3;
+	public static final int MIN_HEIGHT = Constant.FRAME_HEIGHT >> 3;
 	public static final int MAX_HEIGHT = ((Constant.FRAME_HEIGHT) >> 3) * 5;
 
 	private void pipeBornLogic(Bird bird) {
@@ -69,24 +69,68 @@ public class GameElementLayer {
 			pipes.add(top);
 			pipes.add(bottom);
 		} else {
-			// 判断最后一对水管是否完全进入游戏窗口
+			// 判断最后一对水管是否完全进入游戏窗口，若进入则添加水管
 			Pipe lastPipe = pipes.get(pipes.size() - 1); // 获得容器中最后一个水管
 			if (lastPipe.isInFrame()) {
-				int topHeight = GameUtil.getRandomNumber(MIN_HEIGHT, MAX_HEIGHT + 1); // 随机生成水管高度
-				int x = lastPipe.getX() + HORIZONTAL_INTERVAL; //新水管的x坐标 = 最后一对水管的x坐标 + 水管的间隔
+				try {
+					if (GameUtil.isInProbability(1, 3)) { // 概率刷新悬浮水管
+						addHoverPipe(lastPipe);
+					} else {
+						addNormalPipe(lastPipe);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-				Pipe top = PipePool.get();
-				top.setAttribute(x, -Constant.TOP_PIPE_LENGTHENING, topHeight + Constant.TOP_PIPE_LENGTHENING,
-						Pipe.TYPE_TOP_NORMAL, true);
-
-				Pipe bottom = PipePool.get();
-				bottom.setAttribute(x, topHeight + VERTICAL_INTERVAL,
-						Constant.FRAME_HEIGHT - topHeight - VERTICAL_INTERVAL, Pipe.TYPE_BOTTOM_NORMAL, true);
-
-				pipes.add(top);
-				pipes.add(bottom);
 			}
 		}
+
+	}
+
+	/**
+	 * 添加普通水管
+	 * 
+	 * @param lastPipe
+	 */
+	private void addNormalPipe(Pipe lastPipe) {
+		int topHeight = GameUtil.getRandomNumber(MIN_HEIGHT, MAX_HEIGHT + 1); // 随机生成水管高度
+		int x = lastPipe.getX() + HORIZONTAL_INTERVAL; // 新水管的x坐标 = 最后一对水管的x坐标 + 水管的间隔
+
+		Pipe top = PipePool.get();
+		top.setAttribute(x, -Constant.TOP_PIPE_LENGTHENING, topHeight + Constant.TOP_PIPE_LENGTHENING,
+				Pipe.TYPE_TOP_NORMAL, true);
+
+		Pipe bottom = PipePool.get();
+		bottom.setAttribute(x, topHeight + VERTICAL_INTERVAL, Constant.FRAME_HEIGHT - topHeight - VERTICAL_INTERVAL,
+				Pipe.TYPE_BOTTOM_NORMAL, true);
+
+		pipes.add(top);
+		pipes.add(bottom);
+	}
+
+	/**
+	 * 添加悬浮水管
+	 * 
+	 * @param lastPipe
+	 */
+	private void addHoverPipe(Pipe lastPipe) {
+
+		// 随机生成水管高度,屏幕高度的[1/4,1/6]
+		int topHoverHeight = GameUtil.getRandomNumber(Constant.FRAME_HEIGHT / 6, Constant.FRAME_HEIGHT / 4);
+		int x = lastPipe.getX() + HORIZONTAL_INTERVAL; // 新水管的x坐标 = 最后一对水管的x坐标 + 水管的间隔
+		int y = GameUtil.getRandomNumber(Constant.FRAME_HEIGHT / 12, Constant.FRAME_HEIGHT / 6); // 随机水管的y坐标，窗口的[1/6,1/12]
+
+		Pipe topHover = PipePool.get();
+		topHover.setAttribute(x, y, topHoverHeight, Pipe.TYPE_HOVER_NORMAL, true);
+
+		int bottomHoverHeight = Constant.FRAME_HEIGHT - 2 * y - topHoverHeight - VERTICAL_INTERVAL;
+		Pipe bottomHover = PipePool.get();
+		bottomHover.setAttribute(x, y + topHoverHeight + VERTICAL_INTERVAL, bottomHoverHeight, Pipe.TYPE_HOVER_NORMAL,
+				true);
+
+		pipes.add(topHover);
+		pipes.add(bottomHover);
+
 	}
 
 	/**
@@ -100,8 +144,8 @@ public class GameElementLayer {
 		if (bird.isDead()) {
 			return false;
 		}
-		
-		//遍历水管容器
+
+		// 遍历水管容器
 		for (int i = 0; i < pipes.size(); i++) {
 			Pipe pipe = pipes.get(i);
 			// 判断碰撞矩形是否有交集

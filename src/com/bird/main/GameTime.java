@@ -10,15 +10,16 @@ import com.bird.util.Constant;
 import com.bird.util.MusicUtil;
 
 /**
- * 游戏计时类
+ * 游戏计时类,单例类，方便调用
  * 
  * @author Kingyu
  *
  */
 public class GameTime {
+	private static final GameTime GAME_TIME = new GameTime();
 
-	public static final int HOVER_BARRIER_TIME = 10; // 出现悬浮管道的时间
-	public static final int MOVING_BARRIER_TIME = 20; // 出现移动管道的时间
+	public static final int HOVER_BARRIER_SCORE = 1; // 出现悬浮管道的时间
+	public static final int MOVING_BARRIER_SCORE = 2; // 出现移动管道的时间
 
 	private int timeState; // 计时器的状态
 	public static final int STATE_READY = 0; // 计时就绪
@@ -30,7 +31,7 @@ public class GameTime {
 	private long score = 0; // 分数
 	private long bestScore; // 最高分数
 
-	public GameTime() {
+	private GameTime() {
 		timeState = STATE_READY;
 		bestScore = -1;
 
@@ -39,6 +40,10 @@ public class GameTime {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static GameTime getInstance() {
+		return GAME_TIME;
 	}
 
 	// 装载最高纪录
@@ -149,6 +154,7 @@ public class GameTime {
 		timeState = STATE_READY;
 		startTime = 0;
 		endTime = 0;
+		score = 0;
 	}
 
 }
