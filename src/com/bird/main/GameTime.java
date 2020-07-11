@@ -16,15 +16,19 @@ import com.bird.util.MusicUtil;
  *
  */
 public class GameTime {
-	private int timeState; // 游戏的状态
+
+	public static final int HOVER_BARRIER_TIME = 10; // 出现悬浮管道的时间
+	public static final int MOVING_BARRIER_TIME = 20; // 出现移动管道的时间
+
+	private int timeState; // 计时器的状态
 	public static final int STATE_READY = 0; // 计时就绪
 	public static final int STATE_START = 1; // 计时开始
 	public static final int STATE_OVER = 2; // 计时结束
 
 	private long startTime = 0; // 开始时间 ms
 	private long endTime = 0; // 开始时间 ms
-	private long score = 0; //分数
-	private long bestScore; //最高分数
+	private long score = 0; // 分数
+	private long bestScore; // 最高分数
 
 	public GameTime() {
 		timeState = STATE_READY;
@@ -46,9 +50,9 @@ public class GameTime {
 			dis.close();
 		}
 	}
-	
-	//保存最高纪录
-	public void saveBestTime(long time) throws Exception{
+
+	// 保存最高纪录
+	public void saveBestTime(long time) throws Exception {
 		File file = new File(Constant.SCORE_FILE_PATH);
 		DataOutputStream dos = new DataOutputStream(new FileOutputStream(file));
 		dos.writeLong(time);
@@ -58,7 +62,7 @@ public class GameTime {
 	public long getBestScore() {
 		return bestScore;
 	}
-	
+
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
@@ -68,7 +72,7 @@ public class GameTime {
 	}
 
 	/**
-	 * 游戏用时，秒
+	 * 游戏用时，毫秒
 	 * 
 	 * @return
 	 */
@@ -82,11 +86,12 @@ public class GameTime {
 		}
 	}
 
+	//游戏时间转换为秒
 	public long getTimeInSeconds() {
 		return getTime() / 1000;
 	}
 
-	// 是否准备开始计时
+	// 计时器是否就绪
 	public boolean isReadyTiming() {
 		return timeState == STATE_READY;
 	}
@@ -101,21 +106,21 @@ public class GameTime {
 	public void endTiming() {
 		endTime = System.currentTimeMillis();
 		timeState = STATE_OVER;
-		
-		//判断本次记录是否保存
+		// 判断本次得分是否为最高分
 		long score = TimeToScore();
-		if(bestScore < score)
+		if (bestScore < score)
 			bestScore = score;
-			try {
-				saveBestTime(bestScore);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			saveBestTime(bestScore);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	private static final int FIRST_SCORE_TIME = 6700;  //从开始到通过第一根管子所需时间
-	private static final int PER_SCORE_TIME = 2850;   //通过管子的间隔所需时间
+	private static final int FIRST_SCORE_TIME = 6700; // 从游戏开始到通过第一根水管的所需时间
+	private static final int PER_SCORE_TIME = 2850; // 通过后续每一根水管的间隔的所需时间
 
+	//将游戏时间转换为通过水管的数量
 	public long TimeToScore() {
 		long time = getTime();
 		long temp = score;
@@ -123,13 +128,13 @@ public class GameTime {
 			score = 1;
 		} else if (time >= FIRST_SCORE_TIME + PER_SCORE_TIME) {
 			score = (int) (time - FIRST_SCORE_TIME) / PER_SCORE_TIME + 1;
-			}
-		if(score - temp > 0) {
-			MusicUtil.playScore();
+		}
+		if (score - temp > 0) {
+			MusicUtil.playScore(); //每次得分播放音效
 		}
 		return score;
 	}
-	
+
 	/**
 	 * 是否正在计时
 	 * 
@@ -139,6 +144,7 @@ public class GameTime {
 		return timeState == STATE_START;
 	}
 
+	//重置计时器
 	public void reset() {
 		timeState = STATE_READY;
 		startTime = 0;

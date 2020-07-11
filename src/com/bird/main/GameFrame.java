@@ -58,13 +58,12 @@ public class GameFrame extends Frame implements Runnable {
 				System.exit(0); // 结束程序
 			}
 		});
-		// 添加按键监听
-		addKeyListener(new BirdKeyListener());
+		addKeyListener(new BirdKeyListener()); // 添加按键监听
 	}
 
 	// 用于接收按键事件的对象的内部类
 	class BirdKeyListener implements KeyListener {
-		// 按键按下
+		// 按键按下，根据游戏当前的状态调用不同的方法
 		public void keyPressed(KeyEvent e) {
 			int keycode = e.getKeyChar();
 			switch (gameState) {
@@ -89,8 +88,7 @@ public class GameFrame extends Frame implements Runnable {
 				break;
 			}
 		}
-
-		// 重新开始游戏
+		// 定义重新开始游戏的方法
 		private void resetGame() {
 			setGameState(STATE_READY);
 			gameElement.reset();
@@ -98,7 +96,7 @@ public class GameFrame extends Frame implements Runnable {
 
 		}
 
-		// 按键松开
+		// 按键松开，更改按键状态标志
 		public void keyReleased(KeyEvent e) {
 			int keycode = e.getKeyChar();
 			if (keycode == KeyEvent.VK_SPACE) {
@@ -110,7 +108,7 @@ public class GameFrame extends Frame implements Runnable {
 		}
 	}
 
-	// 对游戏中的对象进行初始化
+	// 初始化游戏中的各个对象
 	private void initGame() {
 		background = new GameBackground();
 		gameElement = new GameElementLayer();
@@ -168,10 +166,10 @@ public class GameFrame extends Frame implements Runnable {
 		}
 	}
 
+	//获取、设置游戏状态的方法
 	public static int getGameState() {
 		return gameState;
 	}
-
 	public static void setGameState(int gameState) {
 		GameFrame.gameState = gameState;
 	}

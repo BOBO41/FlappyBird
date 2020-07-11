@@ -21,15 +21,15 @@ public class Bird {
 	private BufferedImage[][] birdImgs; // 小鸟的图片数组对象
 	private int x, y; // 小鸟的坐标
 
-	private BufferedImage image;
-	int wingState;
+	int wingState; // 翅膀状态
 
 	// 图片资源
-	private BufferedImage scoreImg;
-	private BufferedImage overImg;
-	private BufferedImage againImg;
+	private BufferedImage image; // 实时的小鸟图片
+	private BufferedImage scoreImg; // 计分牌
+	private BufferedImage overImg; // 结束标志
+	private BufferedImage againImg; // 继续标志
 
-	// 鸟的状态
+	// 小鸟的状态
 	private int state;
 	public static final int STATE_NORMAL = 0;
 	public static final int STATE_UP = 1;
@@ -61,26 +61,18 @@ public class Bird {
 		int ImgWidth = birdImgs[state][0].getWidth();
 		int ImgHeight = birdImgs[state][0].getHeight();
 
-		// 初始化碰撞矩形的宽高
+		// 初始化碰撞矩形
 		int rectX = x - ImgWidth / 2;
 		int rectY = y - ImgHeight / 2;
 		int rectWidth = ImgWidth;
 		int rectHeight = ImgHeight;
-
 		birdRect = new Rectangle(rectX + RECT_DESCALE, rectY + RECT_DESCALE * 2, rectWidth - RECT_DESCALE * 3,
 				rectHeight - RECT_DESCALE * 4); // 碰撞矩形的坐标与小鸟相同
 	}
 
-	public Rectangle getBirdRect() {
-		return birdRect;
-	}
-
-	private int a;
-
-	// 绘制小鸟
+	// 绘制方法
 	public void draw(Graphics g) {
 		Fly();
-
 		int state_index = state > STATE_FALL ? STATE_FALL : state; // 图片资源索引
 		// 小鸟中心点计算
 		int halfImgWidth = birdImgs[state_index][0].getWidth() >> 1;
@@ -95,7 +87,7 @@ public class Bird {
 		} else {
 			drawTime(g);
 		}
-		
+
 		timing.TimeToScore();
 		// 绘制矩形
 //		g.setColor(Color.black);
@@ -237,8 +229,8 @@ public class Bird {
 
 	private static final int SCORE_LOCATE = 5; // 位置补偿参数
 
+	private int flash = 0; // 图片闪烁参数
 	// 绘制游戏结束的显示
-	private int flash = 0;
 
 	private void drawGameover(Graphics g) {
 		// 绘制结束标志
@@ -254,7 +246,6 @@ public class Bird {
 		// 绘制本局的分数
 		g.setColor(Color.white);
 		g.setFont(Constant.SCORE_FONT);
-
 		x = (Constant.FRAME_WIDTH - scoreImg.getWidth() / 2 >> 1) + SCORE_LOCATE;// 位置补偿
 		y += scoreImg.getHeight() >> 1;
 		String str = Long.toString(timing.TimeToScore());
@@ -270,7 +261,7 @@ public class Bird {
 			g.drawString(str, x, y);
 		}
 		// 绘制继续游戏
-		final int COUNT = 30;
+		final int COUNT = 30; // 控制闪烁间隔的参数
 		if (flash++ > COUNT) {
 			x = Constant.FRAME_WIDTH - againImg.getWidth() >> 1;
 			y = Constant.FRAME_HEIGHT / 5 * 3;
@@ -280,22 +271,7 @@ public class Bird {
 		}
 	}
 
-	private int score = 0;
-
-//	private int TimeToScore() {
-//		long time = timing.getTime();
-//		int temp = score;
-//		if (time >= 6600 && time < 9600) {
-//			score = 1;
-//		} else if (time >= 9600) {
-//			score = (int) (time - 6600) / 2850 + 1;
-//			}
-//		if(score - temp > 0) {
-//			MusicUtil.playScore();
-//		}
-//		return score;
-//	}
-
+	// 重置小鸟
 	public void reset() {
 		state = STATE_NORMAL; // 小鸟状态
 		y = Constant.FRAME_HEIGHT >> 1; // 小鸟坐标
@@ -305,7 +281,11 @@ public class Bird {
 		birdRect.y = y - ImgHeight / 2 + RECT_DESCALE * 2; // 小鸟碰撞矩形坐标
 
 		timing.reset(); // 计时器
-		score = 0;
 		flash = 0;
+	}
+
+	// 获取小鸟的碰撞矩形
+	public Rectangle getBirdRect() {
+		return birdRect;
 	}
 }
