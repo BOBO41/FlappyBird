@@ -1,7 +1,7 @@
 # Flappy Bird
 Flappy Bird for desktop platforms.
 
-基于java语言编写的Flappy Bird，只用了基本框架
+基于java语言编写的Flappy Bird，只用了基本库
 
 开发难度不高，适合JAVA刚入门的同学，注释写得很详细，欢迎交流
 

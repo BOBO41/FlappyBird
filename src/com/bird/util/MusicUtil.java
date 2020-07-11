@@ -42,28 +42,3 @@ public class MusicUtil {
 	}
 
 }
-
-//mp3装载方法
-/*
- * import javazoom.jl.decoder.JavaLayerException; import
- * javazoom.jl.player.Player
- * 
- * private static Player mp3;
- * 
- * public static void load() { 
- *     InputStream in = new FileInputStream(file);
- *     BufferedInputStream buffer = new BufferedInputStream(in) 
- *     mp3 = new Player(buffer); 
- * }
- * 
- * public static void playMp3(){
- *     mp3.play();
- *     mp3.close();
- * }
- * 
- * public static void reset(){
- *     InputStream in = new FileInputStream(file);
- *     BufferedInputStream buffer = new BufferedInputStream(in) 
- *     mp3 = new Player(buffer); 
- * }
- */
