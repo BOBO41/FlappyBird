@@ -21,7 +21,7 @@ public class Constant {
 	public static final String GAME_TITLE = "Flappy Bird written by Kingyu";
 
 	// 窗口位置
-	public static final int FRAME_X = 1200;
+	public static final int FRAME_X = 600;
 	public static final int FRAME_Y = 100;
 
 	// 图像资源路径
