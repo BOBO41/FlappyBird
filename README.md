@@ -41,8 +41,8 @@ com.bird.util   自定义的工具
 
 # Notes
 
-文本编码格式为UTF-8，若注释出现乱码请修改编译器的文本编码格式
+* 文本编码格式为UTF-8，若注释出现乱码请修改编译器的文本编码格式
 
-由于使用了sun.*包，不同版本的JDK中sun包中的类可能发生变化，因此无法确保工作在所有JAVA平台上
+* 由于使用了sun.*包，不同版本的JDK中sun包中的类可能发生变化，因此无法确保工作在所有JAVA平台上
 # Contact
 * email: <kingyuluk@hotmail.com>
