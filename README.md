@@ -6,7 +6,7 @@ Flappy Bird for desktop platforms.
 开发平台为macOS 10.15.5，开发工具为Eclipse IDE (4.16.0)，Java SE 8[1.8.0_251]
 
 
-## OverView
+## Overview
 
 本项目为Flappy bird的桌面平台版，具备原版的所有功能，且相较于原版优化了游戏难度的梯度并加入移动型水管，使游戏的可玩性更高。
 ### 游戏玩法
