@@ -34,6 +34,10 @@ Flappy Bird for desktop platforms.
 
 ## Change Log
 
+v1.2.2 - July 12, 2020
+
+* 移除了计时器，优化了游戏的记分方式，现在记分更准确了
+
 v1.2.1 - July 12, 2020
 * 使用AudioClip类的方法播放连续的短音频会导致线程冲突使游戏卡顿
 

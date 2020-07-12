@@ -71,8 +71,10 @@ public class GameElementLayer {
 		} else {
 			// 判断最后一对水管是否完全进入游戏窗口，若进入则添加水管
 			Pipe lastPipe = pipes.get(pipes.size() - 1); // 获得容器中最后一个水管
-			if (lastPipe.isInFrame()) { // 根据游戏分数难度递增
-				if (GameTime.getInstance().TimeToScore() < Constant.HOVER_MOVING_SCORE) {
+			if (lastPipe.isInFrame()) {  
+				if(pipes.size() >= Constant.FULL_PIPE - 2)// 若窗口中可容纳的水管已满，说明小鸟已飞到第一对水管的位置，开始记分
+				    GameScore.getInstance().setScore(bird);
+				if (GameScore.getInstance().getScore() < Constant.PIPE_MOVING_SCORE) { // 根据游戏分数难度递增
 					try {
 						if (GameUtil.isInProbability(2, 5)) {  // 40%的概率生成悬浮的普通水管
 							addHoverPipe(lastPipe);
